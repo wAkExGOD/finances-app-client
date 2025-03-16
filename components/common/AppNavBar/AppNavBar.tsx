@@ -3,7 +3,6 @@
 import { ComponentProps } from "react"
 import { ShoppingCart, ChartBar, Settings2, Command } from "lucide-react"
 
-import { NavMain, NavUser } from "@/components/common/AppNavBar/common"
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +13,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { ROUTES } from "@/lib/constants/routes"
+import { NavMain } from "./common/NavMain"
+import { NavUser } from "./common/NavUser"
 
 const data = {
   user: {

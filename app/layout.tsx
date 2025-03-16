@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/common/ThemeProvider"
+import { ThemeProvider } from "@/components/common"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
