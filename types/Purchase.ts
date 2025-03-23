@@ -6,5 +6,5 @@ export type Purchase = {
   description?: string
   category: PurchaseCategory
   price: number
-  createdAt: string
+  createdAt: number
 }

@@ -10,15 +10,18 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { ReactElement } from "react"
 
 type DeletePurchaseDialogProps = {
   open: boolean
+  trigger: ReactElement
   setOpen: (open: boolean) => void
   onDelete: () => void
 }
 
 export function DeletePurchaseDialog({
   open,
+  trigger,
   setOpen,
   onDelete,
 }: DeletePurchaseDialogProps) {
@@ -29,9 +32,7 @@ export function DeletePurchaseDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete</Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

@@ -18,7 +18,7 @@ export function PurchaseCard({
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   return (
-    <div className="flex flex-col gap-2 border p-4 rounded-lg">
+    <div className="flex flex-col gap-2 border p-2 rounded-lg md:p-4">
       <h3 className="text-lg font-semibold">{purchase.title}</h3>
       <div>
         <p className="text-sm text-primary">{purchase.category}</p>
@@ -27,13 +27,22 @@ export function PurchaseCard({
         </p>
       </div>
       <p className="text-lg font-bold">${purchase.price.toFixed(2)}</p>
-      <div className="flex justify-end gap-2 mt-auto">
+      <div className="flex flex-col flex-wrap justify-end gap-2 mt-auto md:gap-2 md:flex-row">
         <EditPurchaseDialog
-          trigger={<Button variant="secondary">Edit</Button>}
+          trigger={
+            <Button variant="secondary" size="sm">
+              Edit
+            </Button>
+          }
           purchase={purchase}
           onEdit={onEdit}
         />
         <DeletePurchaseDialog
+          trigger={
+            <Button variant="outline" size="sm">
+              Delete
+            </Button>
+          }
           open={isDeleteDialogOpen}
           setOpen={setDeleteDialogOpen}
           onDelete={() => onDelete(purchase.id)}
