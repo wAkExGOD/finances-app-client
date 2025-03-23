@@ -34,13 +34,11 @@ export function Settings() {
     },
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success("You submitted the following values:", {
-      description: <span>{data.username}</span>,
+  function onSubmit() {
+    toast.success("Success!", {
+      description: <span>Profile data has been changed</span>,
     })
   }
-
-  console.log({ activeTheme, themes })
 
   return (
     <>
