@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import { PAGE_NAMES } from "@/lib/constants/pageNames"
 import { ROUTES } from "@/lib/constants/routes"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { PropsWithChildren } from "react"
 
@@ -38,8 +39,8 @@ export function AppLayout({ children }: PropsWithChildren) {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href={ROUTES.HOME}>
-                    Finances App
+                  <BreadcrumbLink asChild>
+                    <Link href={ROUTES.HOME}>Finances App</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />

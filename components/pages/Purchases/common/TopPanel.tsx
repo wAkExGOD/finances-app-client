@@ -15,14 +15,11 @@ import { usePurchases } from "@/hooks/usePurchases"
 
 export function TopPanel() {
   const {
-    purchases,
     sortingFunction,
     searchString,
     handleSortChange,
     handleSearchChange,
   } = usePurchases()
-
-  console.log(purchases, searchString)
 
   return (
     <div className="flex justify-between gap-4">

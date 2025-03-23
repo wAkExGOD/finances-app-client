@@ -1,5 +1,10 @@
+import { AppLayout } from "@/components/layouts"
 import { Purchases } from "@/components/pages"
 
 export default function Home() {
-  return <Purchases />
+  return (
+    <AppLayout>
+      <Purchases />
+    </AppLayout>
+  )
 }
