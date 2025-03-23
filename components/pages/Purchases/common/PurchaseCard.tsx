@@ -3,6 +3,7 @@ import { Purchase } from "@/types/Purchase"
 import { EditPurchaseDialog } from "./EditPurchaseDialog"
 import { DeletePurchaseDialog } from "./DeletePurchaseDialog"
 import { useState } from "react"
+import { Badge } from "@/components/ui/badge"
 
 type PurchaseCardProps = {
   purchase: Purchase
@@ -18,15 +19,17 @@ export function PurchaseCard({
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   return (
-    <div className="flex flex-col gap-2 border p-2 rounded-lg md:p-4">
+    <div className="relative flex flex-col gap-2 border p-2 rounded-lg md:p-4">
+      <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
+        {purchase.category}
+      </Badge>
       <h3 className="text-lg font-semibold">{purchase.title}</h3>
-      <div>
-        <p className="text-sm text-primary">{purchase.category}</p>
-        <p className="text-sm text-secondary">
-          {new Date(purchase.createdAt).toLocaleDateString()}
-        </p>
-      </div>
-      <p className="text-lg font-bold">${purchase.price.toFixed(2)}</p>
+      <p className="text-lg font-bold font-mono">
+        ${purchase.price.toFixed(2)}
+      </p>
+      <p className="ml-auto text-sm text-sidebar-ring">
+        Created: {new Date(purchase.createdAt * 1000).toLocaleDateString()}
+      </p>
       <div className="flex flex-col flex-wrap justify-end gap-2 mt-auto md:gap-2 md:flex-row">
         <EditPurchaseDialog
           trigger={
