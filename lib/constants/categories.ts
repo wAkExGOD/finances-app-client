@@ -1,12 +1,14 @@
-export const CATEGORIES = [
-  "Food and Drink",
-  "Purchases",
-  "Housing",
-  "Transport",
-  "Vehicle",
-  "Life and entertainment",
-  "Communication, PC",
-  "Financial expenses",
-  "Investments",
-  "Other",
-] as const
+export const CATEGORIES = {
+  foodAndDrink: "Food and Drink",
+  purchases: "Purchases",
+  housing: "Housing",
+  transport: "Transport",
+  vehicle: "Vehicle",
+  lifeAndEntertainment: "Life and entertainment",
+  communication: "Communication, PC",
+  financialExpenses: "Financial expenses",
+  investments: "Investments",
+  other: "Other",
+} as const;
+
+export const CATEGORIES_ARRAY = Object.values(CATEGORIES);

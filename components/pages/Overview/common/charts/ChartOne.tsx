@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -10,33 +10,78 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
+import { CATEGORIES } from "@/lib/constants/categories";
+import { PurchaseCategoryKey } from "@/types/PurchaseCategory";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+const createChartConfig = (): ChartConfig => {
+  const config = {};
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
+  Object.keys(CATEGORIES).forEach((c, i) => {
+    Object.defineProperty(config, c, {
+      value: {
+        label: CATEGORIES[c as PurchaseCategoryKey],
+        color: `hsl(var(--chart-${i + 1}))`,
+      },
+      enumerable: true,
+    });
+  });
+
+  return config;
+};
+
+const createChartData = () => {
+  // Get this data from BE
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const createRandomMonthData = (month: string) => {
+    const data = {};
+
+    Object.keys(CATEGORIES).forEach((c) =>
+      Object.defineProperty(data, c, {
+        value: Math.floor(Math.random() * 100),
+        enumerable: true,
+      })
+    );
+
+    return data;
+  };
+
+  return months.map((month) => {
+    const categories = createRandomMonthData(month);
+
+    const monthObj = {
+      month,
+      ...categories,
+    };
+
+    return monthObj;
+  });
+};
+
+const chartConfig = createChartConfig() satisfies ChartConfig;
+const chartData = createChartData();
+console.log({ chartConfig });
+console.log({ chartData });
 
 export function ChartOne() {
   return (
@@ -124,5 +169,5 @@ export function ChartOne() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

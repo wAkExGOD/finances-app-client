@@ -1,7 +1,12 @@
-"use client"
+"use client";
 
-import { ComponentProps } from "react"
-import { ShoppingCart, ChartBar, Settings2, Command } from "lucide-react"
+import { ComponentProps } from "react";
+import {
+  ShoppingCart,
+  ChartNoAxesColumn,
+  Settings2,
+  Command,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -11,10 +16,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { ROUTES } from "@/lib/constants/routes"
-import { NavMain } from "./common/NavMain"
-import { NavUser } from "./common/NavUser"
+} from "@/components/ui/sidebar";
+import { ROUTES } from "@/lib/constants/routes";
+import { NavMain } from "./common/NavMain";
+import { NavUser } from "./common/NavUser";
 
 const data = {
   user: {
@@ -31,7 +36,7 @@ const data = {
     {
       title: "Overview",
       url: ROUTES.OVERVIEW,
-      icon: ChartBar,
+      icon: ChartNoAxesColumn,
       isActive: true,
     },
     {
@@ -40,7 +45,7 @@ const data = {
       icon: Settings2,
     },
   ],
-}
+};
 
 export function AppNavBar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
@@ -68,5 +73,5 @@ export function AppNavBar({ ...props }: ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
