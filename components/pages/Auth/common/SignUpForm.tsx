@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { LogInSchema, logInSchema } from "../schemas"
+import { signUpSchema, SignUpSchema } from "../schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Form,
@@ -14,20 +14,21 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-type LogInFormProps = {
+type SignUpFormProps = {
   onToggleClick: () => void
 }
 
-export function LogInForm({ onToggleClick }: LogInFormProps) {
-  const form = useForm<LogInSchema>({
-    resolver: zodResolver(logInSchema),
+export function SignUpForm({ onToggleClick }: SignUpFormProps) {
+  const form = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   })
 
-  function onSubmit(values: LogInSchema) {
+  function onSubmit(values: SignUpSchema) {
     console.log(values)
   }
 
@@ -65,12 +66,25 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" className="w-full">
-            Login
+            Sign up
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <a
             href="#"
             className="underline underline-offset-4"
@@ -79,7 +93,7 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
               onToggleClick()
             }}
           >
-            Sign up
+            Log in
           </a>
         </div>
       </form>

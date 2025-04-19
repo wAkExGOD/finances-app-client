@@ -32,7 +32,7 @@ export function TopPanel() {
         />
 
         <Select onValueChange={handleSortChange} defaultValue={sortingFunction}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] cursor-pointer">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>

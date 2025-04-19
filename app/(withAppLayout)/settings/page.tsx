@@ -1,5 +1,5 @@
 import { Settings } from "@/components/pages"
 
-export default function Home() {
+export default function Page() {
   return <Settings />
 }
