@@ -1,6 +1,7 @@
 export const ROUTES = {
-  AUTH: "/auth",
+  HOME: "/", // - also Purchases page
   PURCHASES: "/purchases",
+  AUTH: "/auth",
   OVERVIEW: "/overview",
   SETTINGS: "/settings",
 }

@@ -43,7 +43,7 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
       toast.success("Success!", {
         description: <span>Logged in!</span>,
       })
-      router.push(ROUTES.PURCHASES)
+      router.push(ROUTES.HOME)
     },
     onError: (error) => {
       toast.error(error.message)

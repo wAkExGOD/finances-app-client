@@ -43,7 +43,7 @@ export function SignUpForm({ onToggleClick }: SignUpFormProps) {
       toast.success("Success!", {
         description: <span>Registered!</span>,
       })
-      router.push(ROUTES.PURCHASES)
+      router.push(ROUTES.HOME)
     },
     onError: (error) => {
       toast.error(error.message)
