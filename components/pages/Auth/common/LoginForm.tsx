@@ -1,8 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { Input } from "@/components/ui/input"
 import { LogInSchema, logInSchema } from "../schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -13,12 +14,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { useMutation } from "@tanstack/react-query"
+import { authApi } from "@/api"
+import { toast } from "sonner"
+import { ROUTES } from "@/lib/constants/routes"
+import { useAuth } from "@/hooks/useAuth"
 
 type LogInFormProps = {
   onToggleClick: () => void
 }
 
 export function LogInForm({ onToggleClick }: LogInFormProps) {
+  const router = useRouter()
+  const auth = useAuth()
+
   const form = useForm<LogInSchema>({
     resolver: zodResolver(logInSchema),
     defaultValues: {
@@ -27,8 +36,22 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
     },
   })
 
+  const { mutate: logIn } = useMutation({
+    mutationFn: async (logInData: LogInSchema) => authApi.logIn(logInData),
+    onSuccess: (data) => {
+      auth.login(data)
+      toast.success("Success!", {
+        description: <span>Logged in!</span>,
+      })
+      router.push(ROUTES.PURCHASES)
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+
   function onSubmit(values: LogInSchema) {
-    console.log(values)
+    logIn(values)
   }
 
   return (
@@ -45,6 +68,7 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
                   <Input
                     type="email"
                     placeholder="mail@example.com"
+                    autoComplete="off"
                     {...field}
                   />
                 </FormControl>
@@ -59,7 +83,7 @@ export function LogInForm({ onToggleClick }: LogInFormProps) {
               <FormItem className="grid gap-2">
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <Input {...field} type="password" autoComplete="off" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

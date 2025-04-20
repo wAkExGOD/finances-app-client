@@ -1,5 +1,8 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
@@ -13,12 +16,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { authApi } from "@/api"
+import { useAuth } from "@/hooks/useAuth"
+import { ROUTES } from "@/lib/constants/routes"
 
 type SignUpFormProps = {
   onToggleClick: () => void
 }
 
 export function SignUpForm({ onToggleClick }: SignUpFormProps) {
+  const router = useRouter()
+  const auth = useAuth()
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -28,8 +36,22 @@ export function SignUpForm({ onToggleClick }: SignUpFormProps) {
     },
   })
 
+  const { mutate: signUp } = useMutation({
+    mutationFn: async (signUpData: SignUpSchema) => authApi.signUp(signUpData),
+    onSuccess: (data) => {
+      auth.login(data)
+      toast.success("Success!", {
+        description: <span>Registered!</span>,
+      })
+      router.push(ROUTES.PURCHASES)
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+
   function onSubmit(values: SignUpSchema) {
-    console.log(values)
+    signUp(values)
   }
 
   return (

@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { TrendingUp } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { TrendingUp } from "lucide-react"
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
   Card,
@@ -10,18 +10,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { CATEGORIES } from "@/lib/constants/categories";
-import { PurchaseCategoryKey } from "@/types/PurchaseCategory";
+} from "@/components/ui/chart"
+import { CATEGORIES } from "@/lib/constants/categories"
+import { PurchaseCategoryKey } from "@/types/PurchaseCategory"
 
 const createChartConfig = (): ChartConfig => {
-  const config = {};
+  const config = {}
 
   Object.keys(CATEGORIES).forEach((c, i) => {
     Object.defineProperty(config, c, {
@@ -30,11 +30,11 @@ const createChartConfig = (): ChartConfig => {
         color: `hsl(var(--chart-${i + 1}))`,
       },
       enumerable: true,
-    });
-  });
+    })
+  })
 
-  return config;
-};
+  return config
+}
 
 const createChartData = () => {
   // Get this data from BE
@@ -51,37 +51,38 @@ const createChartData = () => {
     "October",
     "November",
     "December",
-  ];
+  ]
 
   const createRandomMonthData = (month: string) => {
-    const data = {};
+    console.log(month)
+    const data = {}
 
     Object.keys(CATEGORIES).forEach((c) =>
       Object.defineProperty(data, c, {
         value: Math.floor(Math.random() * 100),
         enumerable: true,
       })
-    );
+    )
 
-    return data;
-  };
+    return data
+  }
 
   return months.map((month) => {
-    const categories = createRandomMonthData(month);
+    const categories = createRandomMonthData(month)
 
     const monthObj = {
       month,
       ...categories,
-    };
+    }
 
-    return monthObj;
-  });
-};
+    return monthObj
+  })
+}
 
-const chartConfig = createChartConfig() satisfies ChartConfig;
-const chartData = createChartData();
-console.log({ chartConfig });
-console.log({ chartData });
+const chartConfig = createChartConfig() satisfies ChartConfig
+const chartData = createChartData()
+console.log({ chartConfig })
+console.log({ chartData })
 
 export function ChartOne() {
   return (
@@ -169,5 +170,5 @@ export function ChartOne() {
         </div>
       </CardFooter>
     </Card>
-  );
+  )
 }

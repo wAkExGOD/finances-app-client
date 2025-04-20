@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -13,18 +13,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/form"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { CATEGORIES_ARRAY } from "@/lib/constants/categories";
-import { PurchaseCategory } from "@/types/PurchaseCategory";
-import { Purchase } from "@/types/Purchase";
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { CATEGORIES_ARRAY } from "@/lib/constants/categories"
+import { PurchaseCategory } from "@/types/PurchaseCategory"
+import { Purchase } from "@/types/Purchase"
 
 const purchaseFormSchema = z.object({
   title: z.string().min(2, {
@@ -32,39 +32,45 @@ const purchaseFormSchema = z.object({
   }),
   category: z
     .string()
-    .refine((value) => CATEGORIES_ARRAY.includes(value as PurchaseCategory)),
+    .refine((value) =>
+      CATEGORIES_ARRAY.includes(value as PurchaseCategory["name"])
+    ),
   price: z
     .union([
       z.string().transform((x) => x.replace(/[^0-9.-]+/g, "")),
       z.number(),
     ])
     .pipe(z.coerce.number().min(0.01).max(999999999)),
-});
+})
 
 type PurchaseFormProps = {
-  purchase?: Purchase;
-  onSuccess?: () => void;
-};
+  purchase?: Purchase
+  onSuccess?: () => void
+}
 
 export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
-  const isEdit = Boolean(purchase);
+  const isEdit = purchase !== undefined
 
   const form = useForm<z.infer<typeof purchaseFormSchema>>({
     resolver: zodResolver(purchaseFormSchema),
     defaultValues: isEdit
-      ? purchase
+      ? {
+          title: purchase.name,
+          category: purchase.category.name,
+          price: purchase.price,
+        }
       : {
           title: "",
           category: "",
           price: 0,
         },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof purchaseFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
-    onSuccess?.();
+    console.log(values)
+    onSuccess?.()
   }
 
   return (
@@ -132,5 +138,5 @@ export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
         <Button type="submit">{isEdit ? "Save" : "Create"}</Button>
       </form>
     </Form>
-  );
+  )
 }

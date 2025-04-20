@@ -3,13 +3,17 @@ import { PurchaseCard } from "./PurchaseCard"
 import { usePurchases } from "@/hooks/usePurchases"
 
 export function PurchasesList() {
-  const { purchases } = usePurchases()
+  const { isLoading, purchases } = usePurchases()
 
   const handleDelete = (id: Purchase["id"]) => console.log(`delete ${id}`)
   const handleEdit = async (id: Purchase["id"]) => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(console.log(`edit ${id}`)))
     })
+  }
+
+  if (isLoading) {
+    return <div className="text-center">Loading...</div>
   }
 
   if (purchases.length === 0) {

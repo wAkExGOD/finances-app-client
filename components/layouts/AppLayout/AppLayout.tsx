@@ -40,7 +40,7 @@ export function AppLayout({ children }: PropsWithChildren) {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink asChild>
-                    <Link href={ROUTES.HOME}>Finances App</Link>
+                    <Link href={ROUTES.PURCHASES}>Finances App</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />

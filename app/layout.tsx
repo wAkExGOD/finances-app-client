@@ -1,8 +1,10 @@
-import { ThemeProvider } from "@/components/common"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { ThemeProvider } from "@/components/common"
 import { Toaster } from "@/components/ui/sonner"
+import { QueryProvider } from "@/components/providers"
 import "./globals.css"
+import { AuthProvider } from "@/hooks/useAuth"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,19 +37,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster
-            toastOptions={{
-              classNames: {
-                toast: "toast",
-                title: "title",
-                description: "description",
-                actionButton: "action-button",
-                cancelButton: "cancel-button",
-                closeButton: "close-button",
-              },
-            }}
-          />
+          <QueryProvider>
+            <AuthProvider>
+              {children}
+              <Toaster
+                toastOptions={{
+                  classNames: {
+                    toast: "toast",
+                    title: "title",
+                    description: "description",
+                    actionButton: "action-button",
+                    cancelButton: "cancel-button",
+                    closeButton: "close-button",
+                  },
+                }}
+              />
+            </AuthProvider>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

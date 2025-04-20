@@ -6,13 +6,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Purchase } from "@/types/Purchase"
+import { PurchaseDto } from "@/api"
 import { PurchaseForm } from "@/components/common"
 
 type EditPurchaseDialogProps = {
-  onEdit: (id: Purchase["id"]) => void
+  onEdit: (id: PurchaseDto["id"]) => void
   trigger: ReactElement
-  purchase: Purchase
+  purchase: PurchaseDto
 }
 
 export function EditPurchaseDialog({

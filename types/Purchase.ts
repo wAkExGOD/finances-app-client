@@ -2,9 +2,10 @@ import { PurchaseCategory } from "./PurchaseCategory"
 
 export type Purchase = {
   id: number
-  title: string
-  description?: string
+  name: string
   category: PurchaseCategory
   price: number
-  createdAt: number
+  createdBy: number
+  createdAt: string
+  updatedAt: string
 }
