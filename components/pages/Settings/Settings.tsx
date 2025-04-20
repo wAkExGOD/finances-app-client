@@ -73,7 +73,6 @@ export function Settings() {
           <Label>Light Mode</Label>
           <div className="flex flex-wrap gap-4">
             {themes.map((theme) => {
-              console.log(theme, activeTheme)
               return (
                 <Button
                   key={theme}

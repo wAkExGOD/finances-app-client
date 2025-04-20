@@ -1,5 +1,3 @@
-"use client"
-
 import { ComponentProps } from "react"
 import {
   ShoppingCart,
@@ -20,32 +18,26 @@ import {
 import { ROUTES } from "@/lib/constants/routes"
 import { NavMain } from "./common/NavMain"
 import { NavUser } from "./common/NavUser"
+import Link from "next/link"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navMain = [
+  {
+    title: "Purchases",
+    url: ROUTES.HOME,
+    icon: ShoppingCart,
   },
-  navMain: [
-    {
-      title: "Purchases",
-      url: ROUTES.HOME,
-      icon: ShoppingCart,
-    },
-    {
-      title: "Overview",
-      url: ROUTES.OVERVIEW,
-      icon: ChartNoAxesColumn,
-      isActive: true,
-    },
-    {
-      title: "Settings",
-      url: ROUTES.SETTINGS,
-      icon: Settings2,
-    },
-  ],
-}
+  {
+    title: "Overview",
+    url: ROUTES.OVERVIEW,
+    icon: ChartNoAxesColumn,
+    isActive: true,
+  },
+  {
+    title: "Settings",
+    url: ROUTES.SETTINGS,
+    icon: Settings2,
+  },
+]
 
 export function AppNavBar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
@@ -54,23 +46,23 @@ export function AppNavBar({ ...props }: ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href={ROUTES.HOME}>
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Finances</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )

@@ -9,7 +9,7 @@ export const authApi = {
       json: logInData,
     }),
   signUp: (signUpData: Omit<SignUpSchema, "confirmPassword">) =>
-    apiInstance<LoggedInUser>("/auth/register", {
+    apiInstance("/auth/register", {
       method: "POST",
       json: signUpData,
     }),

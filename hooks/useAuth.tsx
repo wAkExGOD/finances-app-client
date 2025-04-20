@@ -3,7 +3,7 @@
 import { authApi } from "@/api"
 import { AppLoadingScreen } from "@/components/common"
 import { ROUTES } from "@/lib/constants/routes"
-import { LoggedInUser } from "@/types/User"
+import { LoggedInUser, User } from "@/types/User"
 import { useQuery } from "@tanstack/react-query"
 import { ApiError } from "next/dist/server/api-utils"
 import { usePathname, useRouter } from "next/navigation"
@@ -11,6 +11,7 @@ import { PropsWithChildren, createContext, useContext } from "react"
 import { toast } from "sonner"
 
 export type AuthContextType = {
+  user?: User
   isLoading: boolean
   error: Error | null
   login: (data: LoggedInUser) => void
@@ -64,6 +65,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   return (
     <AuthContext.Provider
       value={{
+        user,
         isLoading,
         error,
         login,
