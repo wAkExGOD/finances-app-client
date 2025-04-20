@@ -48,7 +48,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
         router.push(ROUTES.AUTH)
 
-        return null
+        return undefined
       }
     },
     enabled: isAuthedGuardRoute,
