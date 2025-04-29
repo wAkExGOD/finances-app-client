@@ -7,3 +7,8 @@ export type LoggedInUser = {
   user: User
   access_token: string
 }
+
+export type AuthDto = {
+  email: string
+  password: string
+}

@@ -9,3 +9,9 @@ export type Purchase = {
   createdAt: string
   updatedAt: string
 }
+
+export type CreatePurchaseDto = Pick<Purchase, "name" | "price"> & {
+  categoryId: number
+}
+
+export type UpdatePurchaseDto = Partial<CreatePurchaseDto>

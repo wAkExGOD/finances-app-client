@@ -1,17 +1,16 @@
-import { LogInSchema, SignUpSchema } from "@/components/pages/Auth/schemas"
 import { apiInstance } from "./instance"
-import { LoggedInUser, User } from "@/types/User"
+import { LoggedInUser, AuthDto, User } from "@/types/User"
 
 export const authApi = {
-  logIn: (logInData: LogInSchema) =>
+  getMe: () => apiInstance<User>("/auth/profile"),
+  logIn: (logInData: AuthDto) =>
     apiInstance<LoggedInUser>("/auth/login", {
       method: "POST",
       json: logInData,
     }),
-  signUp: (signUpData: Omit<SignUpSchema, "confirmPassword">) =>
+  signUp: (signUpData: AuthDto) =>
     apiInstance("/auth/register", {
       method: "POST",
       json: signUpData,
     }),
-  getMe: () => apiInstance<User>("/auth/profile"),
 }
