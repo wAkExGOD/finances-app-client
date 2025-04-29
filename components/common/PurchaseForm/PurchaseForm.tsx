@@ -22,63 +22,50 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { CATEGORIES_ARRAY } from "@/lib/constants/categories"
-import { PurchaseCategory } from "@/types/PurchaseCategory"
 import { Purchase } from "@/types/Purchase"
+import { useQuery } from "@tanstack/react-query"
+import { purchasesApi } from "@/api"
+import { cn } from "@/lib/utils"
+import { purchaseFormSchema, PurchaseFormSchema } from "./schemas"
 
-const purchaseFormSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  category: z
-    .string()
-    .refine((value) =>
-      CATEGORIES_ARRAY.includes(value as PurchaseCategory["name"])
-    ),
-  price: z
-    .union([
-      z.string().transform((x) => x.replace(/[^0-9.-]+/g, "")),
-      z.number(),
-    ])
-    .pipe(z.coerce.number().min(0.01).max(999999999)),
-})
-
-type PurchaseFormProps = {
+export type PurchaseFormProps = {
   purchase?: Purchase
-  onSuccess?: () => void
+  onSuccess?: (purchase: PurchaseFormSchema) => void
 }
 
 export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
   const isEdit = purchase !== undefined
 
-  const form = useForm<z.infer<typeof purchaseFormSchema>>({
+  const { data: categories, isLoading: areCategoriesLoading } = useQuery({
+    queryFn: purchasesApi.getCategories,
+    queryKey: ["categories"],
+  })
+
+  const form = useForm<PurchaseFormSchema>({
     resolver: zodResolver(purchaseFormSchema),
     defaultValues: isEdit
       ? {
-          title: purchase.name,
-          category: purchase.category.name,
+          name: purchase.name,
+          categoryId: String(purchase.category.id),
           price: purchase.price,
         }
       : {
-          title: "",
-          category: "",
+          name: "",
+          categoryId: "",
           price: 0,
         },
   })
 
   function onSubmit(values: z.infer<typeof purchaseFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    onSuccess?.()
+    onSuccess?.(values)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-6")}>
         <FormField
           control={form.control}
-          name="title"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
@@ -92,33 +79,38 @@ export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {CATEGORIES_ARRAY.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                This is the category of your purchase.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {categories && (
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories.map(({ id, name }) => (
+                      <SelectItem key={id} value={String(id)}>
+                        {name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  This is the category of your purchase.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="price"
@@ -135,7 +127,9 @@ export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">{isEdit ? "Save" : "Create"}</Button>
+        <Button type="submit" disabled={areCategoriesLoading}>
+          {isEdit ? "Save" : "Create"}
+        </Button>
       </form>
     </Form>
   )

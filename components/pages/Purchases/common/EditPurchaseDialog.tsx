@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement, useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -6,28 +6,75 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { PurchaseDto } from "@/api"
-import { PurchaseForm } from "@/components/common"
+import {
+  PurchaseForm,
+  PurchaseFormProps,
+  PurchaseFormSkeleton,
+} from "@/components/common"
+import { useMutateUpdatePurchase } from "../hooks/useMutateUpdatePurchase"
+import { PurchaseFormSchema } from "@/components/common/PurchaseForm/schemas"
+import { Purchase } from "@/types/Purchase"
+import { useQueryGetPurchase } from "../hooks/useQueryGetPurchase"
 
 type EditPurchaseDialogProps = {
-  onEdit: (id: PurchaseDto["id"]) => void
   trigger: ReactElement
-  purchase: PurchaseDto
+  purchaseId: Purchase["id"]
+}
+type PurchaseFormWrapper = Pick<PurchaseFormProps, "onSuccess"> & {
+  purchaseId: Purchase["id"]
 }
 
 export function EditPurchaseDialog({
   trigger,
-  purchase,
+  purchaseId,
 }: EditPurchaseDialogProps) {
+  const [open, setOpen] = useState(false)
+
+  const { mutate: updatePurchase } = useMutateUpdatePurchase(() =>
+    setOpen(false)
+  )
+
+  const handleUpdatePurchase = (updatedPurchase: PurchaseFormSchema) => {
+    if (!updatedPurchase) {
+      return
+    }
+
+    updatePurchase({
+      ...updatedPurchase,
+      categoryId: +updatedPurchase.categoryId,
+      id: purchaseId,
+    })
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-md md:gap-6">
         <DialogHeader>
           <DialogTitle>Edit purchase</DialogTitle>
         </DialogHeader>
-        <PurchaseForm purchase={purchase} />
+        <PurchaseFormWrapper
+          purchaseId={purchaseId}
+          onSuccess={handleUpdatePurchase}
+        />
       </DialogContent>
     </Dialog>
   )
+}
+
+const PurchaseFormWrapper = ({
+  purchaseId,
+  onSuccess,
+}: PurchaseFormWrapper) => {
+  const { data: purchase, isLoading } = useQueryGetPurchase(purchaseId)
+
+  if (isLoading) {
+    return <PurchaseFormSkeleton />
+  }
+
+  if (!purchase) {
+    return <div>{`Can't load purchase ${purchaseId}`}</div>
+  }
+
+  return <PurchaseForm purchase={purchase} onSuccess={onSuccess} />
 }

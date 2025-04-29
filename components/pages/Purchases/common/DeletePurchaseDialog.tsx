@@ -9,24 +9,27 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Purchase } from "@/types/Purchase"
 import { ReactElement } from "react"
+import { useMutateDeletePurchase } from "../hooks/useMutateDeletePurchase"
 
 type DeletePurchaseDialogProps = {
   open: boolean
   trigger: ReactElement
   setOpen: (open: boolean) => void
-  onDelete: () => void
+  purchaseId: Purchase["id"]
 }
 
 export function DeletePurchaseDialog({
   open,
   trigger,
   setOpen,
-  onDelete,
+  purchaseId,
 }: DeletePurchaseDialogProps) {
-  const handleDeleteClick = async () => {
-    onDelete()
-    setOpen(false)
+  const { mutate: deletePurchase } = useMutateDeletePurchase()
+
+  const handleDeletePurchase = () => {
+    deletePurchase(purchaseId)
   }
 
   return (
@@ -42,7 +45,7 @@ export function DeletePurchaseDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteClick}>
+          <AlertDialogAction onClick={handleDeletePurchase}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

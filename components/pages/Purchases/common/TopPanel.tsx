@@ -10,8 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { SORT_BY_ITEMS } from "@/lib/constants/filters"
-import { usePurchases } from "@/hooks/usePurchases"
+import { SORT_ITEMS } from "@/lib/constants/filters"
+import { usePurchasesFilters } from "@/hooks/usePurchasesFilters"
 
 export function TopPanel() {
   const {
@@ -19,7 +19,7 @@ export function TopPanel() {
     searchString,
     handleSortChange,
     handleSearchChange,
-  } = usePurchases()
+  } = usePurchasesFilters()
 
   return (
     <div className="flex justify-between gap-4">
@@ -31,13 +31,16 @@ export function TopPanel() {
           onChange={(e) => handleSearchChange(e.target.value)}
         />
 
-        <Select onValueChange={handleSortChange} defaultValue={sortingFunction}>
+        <Select
+          onValueChange={handleSortChange}
+          defaultValue={sortingFunction.name}
+        >
           <SelectTrigger className="w-[180px] cursor-pointer">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {SORT_BY_ITEMS.map(({ name, displayName, type }) => (
+              {SORT_ITEMS.map(({ name, displayName, type }) => (
                 <SelectItem key={name} value={name}>
                   {type === "asc" ? <ArrowUp /> : <ArrowDown />} {displayName}
                 </SelectItem>
@@ -47,7 +50,6 @@ export function TopPanel() {
         </Select>
       </div>
       <CreatePurchaseDialog
-        onCreate={() => console.log("created")}
         trigger={
           <Button>
             <Pencil /> Create purchase

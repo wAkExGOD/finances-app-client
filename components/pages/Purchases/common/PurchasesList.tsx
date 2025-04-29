@@ -1,34 +1,29 @@
-import { Purchase } from "@/types/Purchase"
 import { PurchaseCard } from "./PurchaseCard"
-import { usePurchases } from "@/hooks/usePurchases"
+import { useQueryGetPurchases } from "../hooks/useQueryGetPurchases"
+import { usePurchasesFilters } from "@/hooks/usePurchasesFilters"
+import { useDebounce } from "@/hooks/useDebounce"
 
 export function PurchasesList() {
-  const { isLoading, purchases } = usePurchases()
-
-  const handleDelete = (id: Purchase["id"]) => console.log(`delete ${id}`)
-  const handleEdit = async (id: Purchase["id"]) => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(console.log(`edit ${id}`)))
-    })
-  }
+  const { sortingFunction, searchString } = usePurchasesFilters()
+  const debouncedSearchString = useDebounce(searchString, 500)
+  const { data: purchases, isLoading } = useQueryGetPurchases({
+    filter: debouncedSearchString,
+    sortBy: sortingFunction.value,
+    order: sortingFunction.type,
+  })
 
   if (isLoading) {
     return <div className="text-center">Loading...</div>
   }
 
-  if (purchases.length === 0) {
+  if (!purchases?.length) {
     return <div className="text-center">You have no purchases</div>
   }
 
   return (
     <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
       {purchases.map((purchase) => (
-        <PurchaseCard
-          key={purchase.id}
-          purchase={purchase}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
+        <PurchaseCard key={purchase.id} purchase={purchase} />
       ))}
     </div>
   )

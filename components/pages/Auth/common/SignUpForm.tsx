@@ -35,7 +35,7 @@ export function SignUpForm({ onToggleClick }: SignUpFormProps) {
     mutationFn: async (signUpData: SignUpSchema) => authApi.signUp(signUpData),
     onSuccess: () => {
       toast.success("Success!", {
-        description: <span>Verification link has been sent to your email</span>,
+        description: "Verification link has been sent to your email",
       })
     },
     onError: (error) => {

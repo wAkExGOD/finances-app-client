@@ -14,4 +14,6 @@ export type CreatePurchaseDto = Pick<Purchase, "name" | "price"> & {
   categoryId: number
 }
 
-export type UpdatePurchaseDto = Partial<CreatePurchaseDto>
+export type UpdatePurchaseDto = Partial<CreatePurchaseDto> & {
+  id: Purchase["id"]
+}

@@ -1,22 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { Purchase } from "@/types/Purchase"
-import { PurchaseDto } from "@/api"
 import { EditPurchaseDialog } from "./EditPurchaseDialog"
 import { DeletePurchaseDialog } from "./DeletePurchaseDialog"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 
 type PurchaseCardProps = {
-  purchase: PurchaseDto
-  onEdit: (id: Purchase["id"]) => void
-  onDelete: (id: Purchase["id"]) => void
+  purchase: Purchase
 }
 
-export function PurchaseCard({
-  purchase,
-  onEdit,
-  onDelete,
-}: PurchaseCardProps) {
+export function PurchaseCard({ purchase }: PurchaseCardProps) {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   return (
@@ -38,8 +31,7 @@ export function PurchaseCard({
               Edit
             </Button>
           }
-          purchase={purchase}
-          onEdit={onEdit}
+          purchaseId={purchase.id}
         />
         <DeletePurchaseDialog
           trigger={
@@ -49,7 +41,7 @@ export function PurchaseCard({
           }
           open={isDeleteDialogOpen}
           setOpen={setDeleteDialogOpen}
-          onDelete={() => onDelete(purchase.id)}
+          purchaseId={purchase.id}
         />
       </div>
     </div>

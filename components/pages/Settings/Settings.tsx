@@ -36,7 +36,7 @@ export function Settings() {
 
   function onSubmit() {
     toast.success("Success!", {
-      description: <span>Profile data has been changed</span>,
+      description: "Profile data has been changed",
     })
   }
 
