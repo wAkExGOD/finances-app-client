@@ -17,3 +17,12 @@ export type CreatePurchaseDto = Pick<Purchase, "name" | "price"> & {
 export type UpdatePurchaseDto = Partial<CreatePurchaseDto> & {
   id: Purchase["id"]
 }
+
+export type PurchasesDailyStats = {
+  [categoryId: number]: number
+  date: string
+}[]
+
+export type TransformedPurchasesStats = ({
+  [categoryName: string]: number
+} & { month: string })[]

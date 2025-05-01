@@ -1,6 +1,7 @@
 import {
   CreatePurchaseDto,
   Purchase,
+  PurchasesDailyStats,
   UpdatePurchaseDto,
 } from "@/types/Purchase"
 import { apiInstance } from "./instance"
@@ -30,6 +31,8 @@ export const purchasesApi = {
   },
   getPurchase: (id: Purchase["id"]) =>
     apiInstance<Purchase>(`/purchases/${id}`),
+  getPurchasesDailyStats: () =>
+    apiInstance<PurchasesDailyStats>("/purchases/statistics"),
   getCategories: () => apiInstance<PurchaseCategory[]>("/categories"),
   createPurchase: (purchaseData: CreatePurchaseDto) =>
     apiInstance<Purchase>("/purchases", {
