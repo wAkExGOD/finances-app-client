@@ -24,7 +24,7 @@ type LogInFormProps = {
   onToggleClick: () => void
 }
 
-export function LogInForm({ onToggleClick }: LogInFormProps) {
+export function LoginForm({ onToggleClick }: LogInFormProps) {
   const router = useRouter()
   const auth = useAuth()
 

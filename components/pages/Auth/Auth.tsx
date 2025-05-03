@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { LogInForm } from "./common/LogInForm"
+import { LoginForm } from "./common/LoginForm"
 import { SignUpForm } from "./common/SignUpForm"
 import { AuthFormLayout } from "./common/AuthFormLayout"
 
@@ -18,7 +18,7 @@ export function Auth() {
       <div className="w-full max-w-sm">
         <AuthFormLayout process={activeProcess}>
           {activeProcess === "login" ? (
-            <LogInForm onToggleClick={handleSetSignUp} />
+            <LoginForm onToggleClick={handleSetSignUp} />
           ) : (
             <SignUpForm onToggleClick={handleSetLogIn} />
           )}

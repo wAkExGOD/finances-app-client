@@ -1,13 +1,11 @@
 import { PurchaseCard } from "./PurchaseCard"
 import { useQueryGetPurchases } from "../hooks/useQueryGetPurchases"
 import { usePurchasesFilters } from "@/hooks/usePurchasesFilters"
-import { useDebounce } from "@/hooks/useDebounce"
 
 export function PurchasesList() {
   const { sortingFunction, searchString } = usePurchasesFilters()
-  const debouncedSearchString = useDebounce(searchString, 500)
   const { data: purchases, isLoading } = useQueryGetPurchases({
-    filter: debouncedSearchString,
+    filter: searchString,
     sortBy: sortingFunction.value,
     order: sortingFunction.type,
   })
