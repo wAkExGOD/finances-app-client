@@ -12,3 +12,12 @@ export type AuthDto = {
   email: string
   password: string
 }
+
+export type ForgotPasswordDto = {
+  email: string
+}
+
+export type ChangePasswordDto = {
+  token: string
+  password: string
+}

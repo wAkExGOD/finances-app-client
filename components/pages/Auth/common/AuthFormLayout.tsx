@@ -7,8 +7,28 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { PropsWithChildren } from "react"
+import { AuthProcess } from "../Auth"
 
-type AuthFormLayoutProps = PropsWithChildren<{ process: "login" | "signup" }>
+type AuthFormLayoutProps = PropsWithChildren<{ process: AuthProcess }>
+
+const texts: Record<AuthProcess, { title: string; description: string }> = {
+  login: {
+    title: "Login",
+    description: "Enter your email below to login to your account",
+  },
+  signup: {
+    title: "Sign up",
+    description: "Enter your email below to sign up for your account",
+  },
+  forgotPassword: {
+    title: "Password recovery",
+    description: "Enter your email below to recover your password",
+  },
+  changePassword: {
+    title: "Change password",
+    description: "Enter your new password",
+  },
+}
 
 export function AuthFormLayout({ process, children }: AuthFormLayoutProps) {
   return (
@@ -22,14 +42,8 @@ export function AuthFormLayout({ process, children }: AuthFormLayoutProps) {
       <div className="flex flex-col gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">
-              {process === "login" ? "Login" : "Sign up"}
-            </CardTitle>
-            <CardDescription>
-              {process === "login"
-                ? "Enter your email below to login to your account"
-                : "Enter your email below to sign up for your account"}
-            </CardDescription>
+            <CardTitle className="text-2xl">{texts[process].title}</CardTitle>
+            <CardDescription>{texts[process].description}</CardDescription>
           </CardHeader>
           <CardContent>{children}</CardContent>
         </Card>
