@@ -33,6 +33,7 @@ import {
 import { PurchaseCategory } from "@/types/PurchaseCategory"
 import { useQuery } from "@tanstack/react-query"
 import { purchasesApi } from "@/api"
+import { useQueryGetCategories } from "@/hooks/useQueryGetCategories"
 
 const createChartConfig = (categories: PurchaseCategory[]): ChartConfig => {
   const config = {}
@@ -53,17 +54,15 @@ const createChartConfig = (categories: PurchaseCategory[]): ChartConfig => {
 export function AreaChart() {
   const [timeRange, setTimeRange] = React.useState("90d")
 
-  const { data: categories } = useQuery({
-    queryFn: purchasesApi.getCategories,
-    queryKey: ["categories"],
-  })
+  const { data: categories } = useQueryGetCategories()
+
   const { data: stats } = useQuery({
     queryKey: ["stats"],
     queryFn: purchasesApi.getPurchasesDailyStats,
   })
 
   if (!stats || !categories) {
-    return null
+    return
   }
 
   const chartConfig = createChartConfig(categories) satisfies ChartConfig
@@ -85,12 +84,13 @@ export function AreaChart() {
   })
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b pb-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Area Chart - Interactive</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Displaying total purchases across all categories for the last 3
+            months
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>

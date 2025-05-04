@@ -26,3 +26,8 @@ export type PurchasesDailyStats = {
 export type TransformedPurchasesStats = ({
   [categoryName: string]: number
 } & { month: string })[]
+
+export type PurchasesMonthlySpendingStats = {
+  month: string
+  [categoryId: number]: number
+}[]

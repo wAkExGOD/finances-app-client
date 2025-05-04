@@ -23,10 +23,9 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Purchase } from "@/types/Purchase"
-import { useQuery } from "@tanstack/react-query"
-import { purchasesApi } from "@/api"
 import { cn } from "@/lib/utils"
 import { purchaseFormSchema, PurchaseFormSchema } from "./schemas"
+import { useQueryGetCategories } from "@/hooks/useQueryGetCategories"
 
 export type PurchaseFormProps = {
   purchase?: Purchase
@@ -36,10 +35,8 @@ export type PurchaseFormProps = {
 export function PurchaseForm({ purchase, onSuccess }: PurchaseFormProps) {
   const isEdit = purchase !== undefined
 
-  const { data: categories, isLoading: areCategoriesLoading } = useQuery({
-    queryFn: purchasesApi.getCategories,
-    queryKey: ["categories"],
-  })
+  const { data: categories, isLoading: areCategoriesLoading } =
+    useQueryGetCategories()
 
   const form = useForm<PurchaseFormSchema>({
     resolver: zodResolver(purchaseFormSchema),
