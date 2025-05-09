@@ -28,6 +28,7 @@ export function PurchasesList() {
     if (currentPage > 1) {
       setCurrentPage((page) => page - 1)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSetNextPage = useCallback(() => {

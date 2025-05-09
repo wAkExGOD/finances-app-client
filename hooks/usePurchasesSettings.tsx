@@ -28,10 +28,13 @@ const PurchasesSettingsProvider = ({ children }: PropsWithChildren) => {
   const [searchString, setSearchString] = useState("")
 
   const handleSortChange = (name: SortItem["name"]) => {
+    setCurrentPage(1)
     setSortingFunction(SORT_ITEMS.find((fn) => fn.name === name) as SortItem)
   }
-  const handleSearchChange = (searchString: string) =>
+  const handleSearchChange = (searchString: string) => {
+    setCurrentPage(1)
     setSearchString(searchString)
+  }
 
   return (
     <PurchasesSettingsContext.Provider
