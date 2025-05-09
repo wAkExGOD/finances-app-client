@@ -1,17 +1,17 @@
 "use client"
 
-import { PurchaseCard } from "./PurchaseCard"
-import { useQueryGetPurchases } from "../hooks/useQueryGetPurchases"
-import { usePurchasesFilters } from "@/hooks/usePurchasesFilters"
-import { useCallback, useState } from "react"
-import { PurchasesSkeleton } from "./PurchasesSkeleton"
+import { useCallback } from "react"
+import { usePurchasesSettings } from "@/hooks/usePurchasesSettings"
 import { Pagination } from "@/components/custom-ui/pagination"
+import { useQueryGetPurchases } from "../hooks/useQueryGetPurchases"
+import { PurchaseCard } from "./PurchaseCard"
+import { PurchasesSkeleton } from "./PurchasesSkeleton"
 
 const PURCHASES_PER_PAGE = 12
 
 export function PurchasesList() {
-  const [page, setPage] = useState(1)
-  const { sortingFunction, searchString } = usePurchasesFilters()
+  const { sortingFunction, searchString, currentPage, setCurrentPage } =
+    usePurchasesSettings()
   const { data, isLoading } = useQueryGetPurchases({
     filters: {
       filter: searchString,
@@ -19,24 +19,23 @@ export function PurchasesList() {
       order: sortingFunction.type,
     },
     pagination: {
-      page,
+      page: currentPage,
       pageSize: PURCHASES_PER_PAGE,
     },
   })
 
   const handleSetPrevPage = useCallback(() => {
-    if (page > 1) {
-      setPage((page) => page - 1)
+    if (currentPage > 1) {
+      setCurrentPage((page) => page - 1)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSetNextPage = useCallback(() => {
     if (!data) {
       return
     }
-    if (page < data.totalPages) {
-      setPage((page) => page + 1)
+    if (currentPage < data.totalPages) {
+      setCurrentPage((page) => page + 1)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -63,9 +62,9 @@ export function PurchasesList() {
 
       {showPurchases && (
         <Pagination
-          page={page}
+          page={currentPage}
           totalPages={data.totalPages}
-          onSetPage={setPage}
+          onSetPage={setCurrentPage}
           onSetPrevPage={handleSetPrevPage}
           onSetNextPage={handleSetNextPage}
         />

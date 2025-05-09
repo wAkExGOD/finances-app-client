@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { SORT_ITEMS } from "@/lib/constants/filters"
-import { usePurchasesFilters } from "@/hooks/usePurchasesFilters"
+import { usePurchasesSettings } from "@/hooks/usePurchasesSettings"
 
 export function TopPanel() {
   const {
@@ -19,7 +19,7 @@ export function TopPanel() {
     searchString,
     handleSortChange,
     handleSearchChange,
-  } = usePurchasesFilters()
+  } = usePurchasesSettings()
 
   return (
     <div className="flex justify-between gap-4">

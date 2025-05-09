@@ -2,15 +2,15 @@
 
 import { TopPanel } from "./common/TopPanel"
 import { PurchasesList } from "./common/PurchasesList"
-import { PurchasesFiltersProvider } from "@/hooks/usePurchasesFilters"
+import { PurchasesSettingsProvider } from "@/hooks/usePurchasesSettings"
 
 export function Purchases() {
   return (
-    <PurchasesFiltersProvider>
+    <PurchasesSettingsProvider>
       <div className="h-full flex flex-col gap-4">
         <TopPanel />
         <PurchasesList />
       </div>
-    </PurchasesFiltersProvider>
+    </PurchasesSettingsProvider>
   )
 }
