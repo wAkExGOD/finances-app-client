@@ -1,4 +1,5 @@
 import {
+  AllPurchases,
   CreatePurchaseDto,
   Purchase,
   PurchasesDailyStats,
@@ -16,19 +17,33 @@ export type PurchasesFilters = Partial<{
 
 export const purchasesApi = {
   getPurchases: ({
-    filter = "",
-    sortBy = "createdAt",
-    order = "desc",
-  }: PurchasesFilters) => {
-    const params = new URLSearchParams({
-      sortBy,
-      order,
-    })
-    if (filter.length > 0) {
+    filters,
+    pagination,
+  }: {
+    filters: PurchasesFilters
+    pagination?: {
+      page: number
+      pageSize: number
+    }
+  }) => {
+    const { sortBy, order, filter } = filters
+    const params = new URLSearchParams()
+
+    if (sortBy) {
+      params.set("sortBy", sortBy)
+    }
+    if (order) {
+      params.set("order", order)
+    }
+    if (filter) {
       params.set("filter", filter)
     }
+    if (pagination) {
+      params.set("page", String(pagination.page))
+      params.set("pageSize", String(pagination.pageSize))
+    }
 
-    return apiInstance<Purchase[]>(`/purchases?${params.toString()}`)
+    return apiInstance<AllPurchases>(`/purchases?${params.toString()}`)
   },
   getPurchase: (id: Purchase["id"]) =>
     apiInstance<Purchase>(`/purchases/${id}`),

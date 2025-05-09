@@ -2,7 +2,7 @@ import { AUTH_TOKEN_KEY } from "@/hooks/useAuth"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string
 
-class ApiError extends Error {
+export class ApiError extends Error {
   constructor(message: string) {
     super("Api error: " + message)
   }

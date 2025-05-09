@@ -7,7 +7,7 @@ import { PurchasesFiltersProvider } from "@/hooks/usePurchasesFilters"
 export function Purchases() {
   return (
     <PurchasesFiltersProvider>
-      <div className="flex flex-col gap-4">
+      <div className="h-full flex flex-col gap-4">
         <TopPanel />
         <PurchasesList />
       </div>

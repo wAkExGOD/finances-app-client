@@ -10,6 +10,13 @@ export type Purchase = {
   updatedAt: string
 }
 
+export type AllPurchases = {
+  totalCount: number
+  totalPages: number
+  currentPage: number
+  purchases: Purchase[]
+}
+
 export type CreatePurchaseDto = Pick<Purchase, "name" | "price"> & {
   categoryId: number
 }
