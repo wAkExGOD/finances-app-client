@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { QueryProvider } from "@/components/providers"
 import "./globals.css"
 import { AuthProvider } from "@/hooks/useAuth"
+import { Suspense } from "react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,23 +38,25 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryProvider>
-            <AuthProvider>
-              {children}
-              <Toaster
-                toastOptions={{
-                  classNames: {
-                    toast: "toast",
-                    title: "title",
-                    description: "description",
-                    actionButton: "action-button",
-                    cancelButton: "cancel-button",
-                    closeButton: "close-button",
-                  },
-                }}
-              />
-            </AuthProvider>
-          </QueryProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+            <QueryProvider>
+              <AuthProvider>
+                {children}
+                <Toaster
+                  toastOptions={{
+                    classNames: {
+                      toast: "toast",
+                      title: "title",
+                      description: "description",
+                      actionButton: "action-button",
+                      cancelButton: "cancel-button",
+                      closeButton: "close-button",
+                    },
+                  }}
+                />
+              </AuthProvider>
+            </QueryProvider>
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

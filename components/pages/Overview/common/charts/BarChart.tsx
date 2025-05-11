@@ -42,6 +42,8 @@ type BarChartWrapperProps = {
   onActiveCategoryClick: (id: string) => void
 }
 
+export const GET_BAR_CHART_QUERY_KEY = "stats-by-category"
+
 const createChartConfig = (category: PurchaseCategory): ChartConfig => ({
   [category.id]: {
     label: category.name,
@@ -79,7 +81,7 @@ const BarChartWrapper = ({
   onActiveCategoryClick,
 }: BarChartWrapperProps) => {
   const { data: chartData } = useQuery({
-    queryKey: ["stats-by-category", activeCategory?.id],
+    queryKey: [GET_BAR_CHART_QUERY_KEY, activeCategory?.id],
     enabled: Boolean(activeCategory),
     queryFn: async () => {
       if (!activeCategory) {

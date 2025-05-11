@@ -35,6 +35,8 @@ import { useQuery } from "@tanstack/react-query"
 import { purchasesApi } from "@/api"
 import { useQueryGetCategories } from "@/hooks/useQueryGetCategories"
 
+export const GET_AREA_CHART_QUERY_KEY = "stats-by-day"
+
 const createChartConfig = (categories: PurchaseCategory[]): ChartConfig => {
   const config = {}
 
@@ -57,7 +59,7 @@ export function AreaChart() {
   const { data: categories } = useQueryGetCategories()
 
   const { data: stats } = useQuery({
-    queryKey: ["stats"],
+    queryKey: [GET_AREA_CHART_QUERY_KEY],
     queryFn: purchasesApi.getPurchasesDailyStats,
   })
 
@@ -141,30 +143,6 @@ export function AreaChart() {
                   />
                 </linearGradient>
               ))}
-              {/* <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient> */}
             </defs>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -201,25 +179,10 @@ export function AreaChart() {
                 dataKey={id}
                 type="natural"
                 fill={`url(#fill-${id})`}
-                // fillOpacity={0.4}
                 stroke={`var(--color-${id})`}
                 stackId="a"
               />
             ))}
-            {/* <Area
-              dataKey="mobile"
-              type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
-              stackId="a"
-            /> */}
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChartComponent>
         </ChartContainer>
