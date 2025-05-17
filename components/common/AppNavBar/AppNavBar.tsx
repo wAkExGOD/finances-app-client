@@ -27,8 +27,8 @@ const navMain = [
     icon: ShoppingCart,
   },
   {
-    title: "Overview",
-    url: ROUTES.OVERVIEW,
+    title: "Statistics",
+    url: ROUTES.STATISTICS,
     icon: ChartNoAxesColumn,
     isActive: true,
   },

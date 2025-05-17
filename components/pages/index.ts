@@ -1,4 +1,4 @@
 export * from "./Auth/Auth"
-export * from "./Overview/Overview"
+export * from "./Statistics/Statistics"
 export * from "./Purchases/Purchases"
 export * from "./Settings/Settings"

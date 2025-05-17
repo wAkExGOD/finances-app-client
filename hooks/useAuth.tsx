@@ -22,7 +22,7 @@ export const AUTH_TOKEN_KEY = "finances-app-token"
 export const AUTHED_GUARD_ROUTES = [
   ROUTES.HOME,
   ROUTES.PURCHASES,
-  ROUTES.OVERVIEW,
+  ROUTES.STATISTICS,
   ROUTES.SETTINGS,
 ] as const
 
