@@ -2,8 +2,10 @@ import {
   AllPurchases,
   CreatePurchaseDto,
   Purchase,
-  PurchasesDailyStats,
-  PurchasesMonthlySpendingStats,
+  PurchasesDailyStatsResponse,
+  PurchasesMonthlySpendingStatsResponse,
+  DatePeriod,
+  SpendingForPeriodResponse,
   UpdatePurchaseDto,
 } from "@/types/Purchase"
 import { apiInstance } from "./instance"
@@ -66,9 +68,14 @@ export const purchasesApi = {
 
   /* Statistics */
   getPurchasesDailyStats: () =>
-    apiInstance<PurchasesDailyStats>("/purchases/statistics/daily"),
+    apiInstance<PurchasesDailyStatsResponse>("/purchases/statistics/daily"),
   getMonthlySpendingByCategory: (categoryId: PurchaseCategory["id"]) =>
-    apiInstance<PurchasesMonthlySpendingStats>(
+    apiInstance<PurchasesMonthlySpendingStatsResponse>(
       `/purchases/statistics/category/${categoryId}`
     ),
+  getSpendingStatsForPeriod: (period: DatePeriod) =>
+    apiInstance<SpendingForPeriodResponse>("/purchases/statistics/for-period", {
+      method: "POST",
+      json: period,
+    }),
 }

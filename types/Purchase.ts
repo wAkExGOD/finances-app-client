@@ -25,7 +25,7 @@ export type UpdatePurchaseDto = Partial<CreatePurchaseDto> & {
   id: Purchase["id"]
 }
 
-export type PurchasesDailyStats = {
+export type PurchasesDailyStatsResponse = {
   [categoryId: number]: number
   date: string
 }[]
@@ -34,7 +34,20 @@ export type TransformedPurchasesStats = ({
   [categoryName: string]: number
 } & { month: string })[]
 
-export type PurchasesMonthlySpendingStats = {
+export type PurchasesMonthlySpendingStatsResponse = {
   month: string
   [categoryId: number]: number
 }[]
+
+export type DatePeriod = {
+  startDate: string
+  endDate: string
+}
+
+export type SpendingForPeriodResponse = {
+  total: number
+  categories: {
+    name: string
+    value: number
+  }[]
+}
