@@ -69,10 +69,22 @@ export function PeriodStatistics() {
   })
 
   function onSubmit(data: PeriodStatisticsSchema) {
-    getStats({
-      startDate: data.startDate.toDateString(),
-      endDate: data.endDate.toDateString(),
-    })
+    const start = new Date(data.startDate)
+    start.setHours(0, 0, 0, 0)
+
+    const end = new Date(data.endDate)
+    end.setHours(23, 59, 59, 999)
+
+    const result = {
+      startDate: new Date(
+        start.getTime() - start.getTimezoneOffset() * 60000
+      ).toJSON(),
+      endDate: new Date(
+        end.getTime() - end.getTimezoneOffset() * 60000
+      ).toJSON(),
+    }
+
+    getStats(result)
   }
 
   return (
